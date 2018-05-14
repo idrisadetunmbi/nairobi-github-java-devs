@@ -1,4 +1,4 @@
-package idrisadetunmbi.githubusers;
+package idrisadetunmbi.githubusers.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import idrisadetunmbi.githubusers.R;
 import idrisadetunmbi.githubusers.models.GithubUser;
 
 public class DetailActivity extends AppCompatActivity {
