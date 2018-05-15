@@ -1,8 +1,13 @@
 package idrisadetunmbi.githubusers.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class GithubUser {
 
+    @SerializedName("login")
     private String mUsername;
+
+    @SerializedName("organizations_url")
     private String mOrganization;
 
     public GithubUser(String username, String organization) {
@@ -14,15 +19,7 @@ public class GithubUser {
         return mUsername;
     }
 
-    public void setUsername(String username) {
-        mUsername = username;
-    }
-
     public String getOrganization() {
         return mOrganization;
-    }
-
-    public void setOrganization(String organization) {
-        mOrganization = organization;
     }
 }
