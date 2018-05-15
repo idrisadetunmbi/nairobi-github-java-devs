@@ -43,6 +43,7 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Us
 
     public static class UserViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
+
         private ImageView mUserImageView;
         private TextView mUserNameTextView;
 
