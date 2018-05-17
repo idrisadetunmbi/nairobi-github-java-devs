@@ -1,25 +1,24 @@
 package idrisadetunmbi.githubusers.views;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 import idrisadetunmbi.githubusers.R;
+import idrisadetunmbi.githubusers.adapters.GithubUserAdapter;
 import idrisadetunmbi.githubusers.models.GithubUser;
 import idrisadetunmbi.githubusers.presenters.GithubUsersPresenter;
 
-public class UsersListActivity extends AppCompatActivity implements GithubUserView {
+public class UsersListActivity extends AppCompatActivity {
 
-    private static final List<GithubUser> GITHUB_USERS = Arrays.asList(
-            new GithubUser("Jon Doe", "Jon Does' Org"),
-            new GithubUser("Jane Whatevs", "Whatevs")
-    );
+    private GithubUserAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
+
+    public final static String USERS_LIST_KEY = "ADAPTER_LIST_STATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +26,33 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
         setContentView(R.layout.activity_users_list);
 
         RecyclerView recyclerView = findViewById(R.id.users_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
 
-        GithubUserAdapter adapter = new GithubUserAdapter(GITHUB_USERS);
-        recyclerView.setAdapter(adapter);
-        getUsers();
-    }
-
-    @Override
-    public void githubUsersReady(List<GithubUser> users) {
-        Log.i("GITHUB_USERS", "Users size: " + users.size());
-        Toast.makeText(this, "Users fetched successfully", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public static List<GithubUser> getGithubUsers() {
-        return GITHUB_USERS;
+        mAdapter = new GithubUserAdapter();
+        recyclerView.setAdapter(mAdapter);
+        if (savedInstanceState == null) {
+            getUsers();
+        }
     }
 
     private void getUsers() {
-        GithubUsersPresenter presenter = new GithubUsersPresenter(this);
+        GithubUsersPresenter presenter = new GithubUsersPresenter(mAdapter);
         presenter.getUsersFromApi();
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(USERS_LIST_KEY,
+                (ArrayList<? extends Parcelable>) mAdapter.getGithubUsers());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAdapter.setGithubUsers(savedInstanceState
+                .<GithubUser>getParcelableArrayList(USERS_LIST_KEY));
     }
 }
