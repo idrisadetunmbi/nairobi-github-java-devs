@@ -1,7 +1,6 @@
 package idrisadetunmbi.githubusers.presenters;
 
 import android.support.annotation.NonNull;
-
 import android.util.Log;
 
 import java.util.List;
@@ -10,7 +9,6 @@ import idrisadetunmbi.githubusers.models.GithubUser;
 import idrisadetunmbi.githubusers.models.GithubUsersResponse;
 import idrisadetunmbi.githubusers.services.GithubService;
 import idrisadetunmbi.githubusers.views.GithubUserView;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

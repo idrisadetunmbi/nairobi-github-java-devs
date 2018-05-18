@@ -15,10 +15,9 @@ import idrisadetunmbi.githubusers.presenters.GithubUsersPresenter;
 
 public class UsersListActivity extends AppCompatActivity {
 
+    public static final String USERS_LIST_KEY = "ADAPTER_LIST_STATE";
     private GithubUserAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-
-    public final static String USERS_LIST_KEY = "ADAPTER_LIST_STATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

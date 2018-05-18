@@ -5,18 +5,35 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class GithubUser implements Parcelable {
 
+    public static final Parcelable.Creator<GithubUser> CREATOR =
+            new Parcelable.Creator<GithubUser>() {
+        @Override
+        public GithubUser createFromParcel(Parcel source) {
+            return new GithubUser(source);
+        }
+
+        @Override
+        public GithubUser[] newArray(int size) {
+            return new GithubUser[size];
+        }
+    };
     @SerializedName("login")
     private String mUsername;
-
     @SerializedName("organizations_url")
     private String mOrganization;
-
     @SerializedName("avatar_url")
     private String mAvatarUrl;
+
+    public GithubUser() {
+    }
+
+    protected GithubUser(Parcel in) {
+        this.mUsername = in.readString();
+        this.mOrganization = in.readString();
+        this.mAvatarUrl = in.readString();
+    }
 
     public String getUsername() {
         return mUsername;
@@ -41,25 +58,4 @@ public class GithubUser implements Parcelable {
         dest.writeString(this.mOrganization);
         dest.writeString(this.mAvatarUrl);
     }
-
-    public GithubUser() {
-    }
-
-    protected GithubUser(Parcel in) {
-        this.mUsername = in.readString();
-        this.mOrganization = in.readString();
-        this.mAvatarUrl = in.readString();
-    }
-
-    public static final Parcelable.Creator<GithubUser> CREATOR = new Parcelable.Creator<GithubUser>() {
-        @Override
-        public GithubUser createFromParcel(Parcel source) {
-            return new GithubUser(source);
-        }
-
-        @Override
-        public GithubUser[] newArray(int size) {
-            return new GithubUser[size];
-        }
-    };
 }
