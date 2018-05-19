@@ -7,8 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class GithubUser implements Parcelable {
 
-    public static final Parcelable.Creator<GithubUser> CREATOR =
-            new Parcelable.Creator<GithubUser>() {
+    public static final Creator<GithubUser> CREATOR = new Creator<GithubUser>() {
         @Override
         public GithubUser createFromParcel(Parcel source) {
             return new GithubUser(source);
@@ -25,6 +24,8 @@ public class GithubUser implements Parcelable {
     private String mOrganization;
     @SerializedName("avatar_url")
     private String mAvatarUrl;
+    @SerializedName("html_url")
+    private String mProfileUrl;
 
     public GithubUser() {
     }
@@ -33,6 +34,11 @@ public class GithubUser implements Parcelable {
         this.mUsername = in.readString();
         this.mOrganization = in.readString();
         this.mAvatarUrl = in.readString();
+        this.mProfileUrl = in.readString();
+    }
+
+    public String getProfileUrl() {
+        return mProfileUrl;
     }
 
     public String getUsername() {
@@ -57,5 +63,6 @@ public class GithubUser implements Parcelable {
         dest.writeString(this.mUsername);
         dest.writeString(this.mOrganization);
         dest.writeString(this.mAvatarUrl);
+        dest.writeString(this.mProfileUrl);
     }
 }
