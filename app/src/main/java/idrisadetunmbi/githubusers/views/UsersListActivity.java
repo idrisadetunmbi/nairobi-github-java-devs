@@ -2,6 +2,7 @@ package idrisadetunmbi.githubusers.views;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
     private GithubUserAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new GithubUserAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        setUpSwipeRefresh();
 
         if (savedInstanceState == null) {
             toggleVisibilities(false);
@@ -46,6 +49,7 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
         mAdapter.setGithubUsers(users);
         toggleVisibilities(true);
         mAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void getUsers() {
@@ -72,5 +76,15 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
     public void toggleVisibilities(boolean recyclerViewIsVisible) {
         mProgressBar.setVisibility(recyclerViewIsVisible ? View.GONE : View.VISIBLE);
         mRecyclerView.setVisibility(recyclerViewIsVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private void setUpSwipeRefresh() {
+        mSwipeRefreshLayout = findViewById(R.id.activity_users_list_swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getUsers();
+            }
+        });
     }
 }
