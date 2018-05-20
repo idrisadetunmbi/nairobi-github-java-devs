@@ -43,6 +43,12 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+          name: Generate Code Coverage
+          command: ./gradlew jacocoTestReport
+      - run:
+          name: Coverage Reporting
+          command: bash <(curl -s https://codecov.io/bash)
 
 
 
