@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/idrisadetunmbi/nairobi-github-java-devs/tree/development.svg?style=svg)](https://circleci.com/gh/idrisadetunmbi/nairobi-github-java-devs/tree/development)
+[![CircleCI](https://circleci.com/gh/idrisadetunmbi/nairobi-github-java-devs/tree/development.svg?style=svg)](https://circleci.com/gh/idrisadetunmbi/nairobi-github-java-devs/tree/development) [![codecov](https://codecov.io/gh/idrisadetunmbi/nairobi-github-java-devs/branch/development/graph/badge.svg)](https://codecov.io/gh/idrisadetunmbi/nairobi-github-java-devs)
 
 # github-android-developers
 
