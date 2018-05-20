@@ -17,10 +17,8 @@ import java.util.List;
 import idrisadetunmbi.githubusers.R;
 import idrisadetunmbi.githubusers.models.GithubUser;
 import idrisadetunmbi.githubusers.views.DetailActivity;
-import idrisadetunmbi.githubusers.views.GithubUserView;
 
-public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.UserViewHolder>
-        implements GithubUserView {
+public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.UserViewHolder> {
 
     private List<GithubUser> mGithubUsers = new ArrayList<>();
 
@@ -41,12 +39,6 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Us
     @Override
     public int getItemCount() {
         return mGithubUsers.size();
-    }
-
-    @Override
-    public void githubUsersReady(List<GithubUser> users) {
-        mGithubUsers = users;
-        notifyDataSetChanged();
     }
 
     public List<GithubUser> getGithubUsers() {
