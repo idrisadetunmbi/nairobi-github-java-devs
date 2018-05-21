@@ -1,4 +1,4 @@
-package idrisadetunmbi.githubusers.views;
+package idrisadetunmbi.githubusers.adapters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import idrisadetunmbi.githubusers.R;
 import idrisadetunmbi.githubusers.models.GithubUser;
+import idrisadetunmbi.githubusers.views.DetailActivity;
+import idrisadetunmbi.githubusers.views.GithubUserView;
 
-public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.UserViewHolder> {
+public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.UserViewHolder>
+        implements GithubUserView {
 
-    private List<GithubUser> mGithubUsers;
-
-    public GithubUserAdapter(List<GithubUser> githubUsers) {
-        mGithubUsers = githubUsers;
-    }
+    private List<GithubUser> mGithubUsers = new ArrayList<>();
 
     @NonNull
     @Override
@@ -41,11 +43,27 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Us
         return mGithubUsers.size();
     }
 
-    public static class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public void githubUsersReady(List<GithubUser> users) {
+        mGithubUsers = users;
+        notifyDataSetChanged();
+    }
+
+    public List<GithubUser> getGithubUsers() {
+        return mGithubUsers;
+    }
+
+    public void setGithubUsers(List<GithubUser> githubUsers) {
+        mGithubUsers = githubUsers;
+    }
+
+    public static class UserViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+        private GithubUser mUser;
         private ImageView mUserImageView;
         private TextView mUserNameTextView;
 
-        public UserViewHolder(View view) {
+        UserViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             mUserImageView = view.findViewById(R.id.users_profile_image);
@@ -54,12 +72,16 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Us
 
         @Override
         public void onClick(View v) {
-            Intent intent = DetailActivity.newIntent(v.getContext(), getAdapterPosition());
+            Intent intent = DetailActivity.newIntent(v.getContext(), mUser);
             v.getContext().startActivity(intent);
         }
 
         void bind(GithubUser user) {
+            mUser = user;
             mUserNameTextView.setText(user.getUsername());
+            Glide.with(itemView.getContext())
+                    .load(user.getAvatarUrl())
+                    .into(mUserImageView);
         }
     }
 }
