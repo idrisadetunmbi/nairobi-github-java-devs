@@ -51,3 +51,10 @@ freeline/
 freeline_project_description.json
 libs/
 app/libs/
+
+.idea/instapk.xml
+instapk.log*
+.DS_Store
+.hgignore
+app/.DS_Store
+instapk.properties
