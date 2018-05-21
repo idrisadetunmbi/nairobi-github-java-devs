@@ -2,6 +2,7 @@ package idrisadetunmbi.githubusers.views;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,7 @@ import idrisadetunmbi.githubusers.R;
 import idrisadetunmbi.githubusers.adapters.GithubUserAdapter;
 import idrisadetunmbi.githubusers.models.GithubUser;
 import idrisadetunmbi.githubusers.presenters.GithubUsersPresenter;
+import idrisadetunmbi.githubusers.utils.NetworkInfo;
 
 public class UsersListActivity extends AppCompatActivity implements GithubUserView {
 
@@ -39,7 +41,6 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
         setUpSwipeRefresh();
 
         if (savedInstanceState == null) {
-            toggleVisibilities(false);
             getUsers();
         }
     }
@@ -54,7 +55,26 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
 
     private void getUsers() {
         GithubUsersPresenter presenter = new GithubUsersPresenter(this);
+        if (!NetworkInfo.isOnline(this)) {
+            displaySnackbar();
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+            return;
+        }
+        toggleVisibilities(false);
         presenter.getUsersFromApi();
+    }
+
+    private void displaySnackbar() {
+        Snackbar.make(findViewById(R.id.activity_users_list_fl_parent_view),
+                R.string.snack_bar_msg, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.snack_bar_action_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getUsers();
+                    }
+                }).show();
     }
 
 
@@ -70,7 +90,6 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
         super.onRestoreInstanceState(savedInstanceState);
         mAdapter.setGithubUsers(savedInstanceState
                 .<GithubUser>getParcelableArrayList(USERS_LIST_KEY));
-        toggleVisibilities(true);
     }
 
     public void toggleVisibilities(boolean recyclerViewIsVisible) {
