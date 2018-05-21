@@ -1,10 +1,11 @@
 package idrisadetunmbi.githubusers.views;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ public class UsersListActivity extends AppCompatActivity implements GithubUserVi
     @Override
     public void githubUsersReady(List<GithubUser> users) {
         Log.i("GITHUB_USERS", "Users size: " + users.size());
+        Toast.makeText(this, "Users fetched successfully", Toast.LENGTH_SHORT).show();
     }
 
 

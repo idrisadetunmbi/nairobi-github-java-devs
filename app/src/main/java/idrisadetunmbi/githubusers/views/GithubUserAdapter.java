@@ -41,7 +41,9 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Us
         return mGithubUsers.size();
     }
 
-    public static class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class UserViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
         private ImageView mUserImageView;
         private TextView mUserNameTextView;
 
