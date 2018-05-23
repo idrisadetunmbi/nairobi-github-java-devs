@@ -1,53 +1,38 @@
 package idrisadetunmbi.githubusers.presenters;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import java.util.List;
 
+import idrisadetunmbi.githubusers.UsersContract;
 import idrisadetunmbi.githubusers.models.GithubUser;
-import idrisadetunmbi.githubusers.models.GithubUsersResponse;
-import idrisadetunmbi.githubusers.services.GithubService;
-import idrisadetunmbi.githubusers.views.GithubUserView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class GithubUsersPresenter {
-    private GithubService mGithubService;
-    private GithubUserView mGithubUserView;
+public class GithubUsersPresenter implements UsersContract.ActionsListener {
+    private UsersContract.View mGithubUserView;
+    private UsersContract.Data mData;
 
-    public GithubUsersPresenter(GithubUserView githubUserView) {
+    public GithubUsersPresenter(UsersContract.View githubUserView, UsersContract.Data data) {
         mGithubUserView = githubUserView;
-        if (mGithubService == null) {
-            mGithubService = new GithubService();
+        mData = data;
+    }
+
+    @Override
+    public void loadUsers() {
+        if (mGithubUserView.userIsOnline()) {
+            mGithubUserView.setProgressIndicator(true);
+            mData.getUsers(new UsersContract.Data.Callback<List<GithubUser>>() {
+                @Override
+                public void onLoaded(List<GithubUser> data) {
+                    mGithubUserView.setProgressIndicator(false);
+                    mGithubUserView.showUsers(data);
+                }
+            });
+        } else {
+            mGithubUserView.setProgressIndicator(false);
+            mGithubUserView.showNetworkUnavailabilitySnackbar();
         }
     }
 
-    public void getUsersFromApi() {
-        mGithubService
-                .getAPI()
-                .getUsers()
-                .enqueue(new Callback<GithubUsersResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<GithubUsersResponse> call,
-                                           @NonNull Response<GithubUsersResponse> response) {
-                        GithubUsersResponse data = response.body();
-                        if (data != null && data.getGithubUsers() != null) {
-                            List<GithubUser> githubUsers = data.getGithubUsers();
-                            mGithubUserView.githubUsersReady(githubUsers);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<GithubUsersResponse> call,
-                                          @NonNull Throwable t) {
-                        try {
-                            throw new InterruptedException("Something went wrong");
-                        } catch (InterruptedException e) {
-                            Log.d("ERROR_RETRIEVING_USERS", e.getLocalizedMessage());
-                        }
-                    }
-                });
+    @Override
+    public void openDetailsView(GithubUser user) {
+        mGithubUserView.showUserDetailsUi(user);
     }
 }
