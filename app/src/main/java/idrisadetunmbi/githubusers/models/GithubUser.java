@@ -65,4 +65,20 @@ public class GithubUser implements Parcelable {
         dest.writeString(this.mAvatarUrl);
         dest.writeString(this.mProfileUrl);
     }
+
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    public void setOrganization(String organization) {
+        mOrganization = organization;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        mAvatarUrl = avatarUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        mProfileUrl = profileUrl;
+    }
 }

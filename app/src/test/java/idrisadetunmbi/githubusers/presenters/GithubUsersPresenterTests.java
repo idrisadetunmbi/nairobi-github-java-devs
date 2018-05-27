@@ -65,6 +65,4 @@ public class GithubUsersPresenterTests {
         mPresenter.openDetailsView(user);
         Mockito.verify(mView).showUserDetailsUi(user);
     }
-
-
 }
