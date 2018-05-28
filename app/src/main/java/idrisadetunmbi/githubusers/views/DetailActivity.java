@@ -17,7 +17,7 @@ import idrisadetunmbi.githubusers.models.GithubUser;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String EXTRA_USER_INDEX = "idrisadetunmbi.githubusers.user_index";
+    public static final String EXTRA_GITHUB_USER = "idrisadetunmbi.githubusers.user_index";
     private GithubUser mUser;
 
     private TextView mUsernameTextView;
@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context context, GithubUser user) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(EXTRA_USER_INDEX, user);
+        intent.putExtra(EXTRA_GITHUB_USER, user);
         return intent;
     }
 
@@ -36,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
 
-        mUser = getIntent().getParcelableExtra(EXTRA_USER_INDEX);
+        mUser = getIntent().getParcelableExtra(EXTRA_GITHUB_USER);
 
         mUsernameTextView = findViewById(R.id.activity_user_details_tv_username);
         mOrganizationTextView = findViewById(R.id.activity_user_details_tv_organization);
