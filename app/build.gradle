@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'jacoco'
 
 apply from: '../config/quality.gradle'
@@ -43,6 +44,7 @@ dependencies {
     implementation 'org.mockito:mockito-all:2.0.2-beta'
     implementation 'com.android.support:design:27.1.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 jacoco {
@@ -70,4 +72,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     executionData = fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
+}
+repositories {
+    mavenCentral()
 }
